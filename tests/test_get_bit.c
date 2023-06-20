@@ -1,29 +1,33 @@
-#include <stdio.h>
 #include <check.h>
-#include "../e_decimal.h"
+#include <stdio.h>
 
-START_TEST (get_bit_5) {
+#include "../s21_decimal.h"
+
+START_TEST(get_bit_11) {
   // Arrange
   //                                                 76543210
   int number = 11;  // 0b 00000000 00000000 00000000 00001011
-  
+  char _0b_11_str[33] = "00000000000000000000000000001011";
+
   // Act
-  int i = 8;
-  char str[9] = {0};
-  while (i--) str[7 - i] = e_get_bit(number, i) + 48;
-  printf("\nget_bits result for %d: %s\n\n", number, str);
+  char str[33];
+  str[32] = '\0';
+  int i = 32;
+  while (i--) str[31 - i] = s21_get_bit(number, i) + 48;
+
   // Assert
-  ck_assert_str_eq(str, "00001011");
-} END_TEST
+  ck_assert_str_eq(str, _0b_11_str);
+}
+END_TEST
 
 Suite* get_bit_func(void) {
   Suite* s;
   TCase* tc_1;
 
-  s = suite_create("Get_Bit");
+  s = suite_create("get_bit function");
 
   tc_1 = tcase_create("Eleven");
-  tcase_add_test(tc_1, get_bit_5);
+  tcase_add_test(tc_1, get_bit_11);
   suite_add_tcase(s, tc_1);
 
   return s;
@@ -31,11 +35,11 @@ Suite* get_bit_func(void) {
 
 int main(void) {
   int failed = 0;
-  Suite* get_bits;
-  SRunner *runner;
+  Suite* get_bit_suite;
+  SRunner* runner;
 
-  get_bits = get_bit_func();
-  runner = srunner_create(get_bits);
+  get_bit_suite = get_bit_func();
+  runner = srunner_create(get_bit_suite);
 
   srunner_run_all(runner, CK_NORMAL);
   failed += srunner_ntests_failed(runner);
