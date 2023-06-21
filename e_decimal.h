@@ -9,6 +9,7 @@ typedef struct {
 enum { _low, _mid, _high, _form };
 
 // MAIN FUNCTIONS
+int e_add(int value_1, int value_2, int* result);
 
 // INTERNAL FUNCTIONS
 // int e_get_bit(e_decimal value, int bit_pos);

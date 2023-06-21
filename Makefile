@@ -40,7 +40,7 @@ OBJ_SUCCESS:
 
 
 # TESTS
-test: test_getbit test_int2bin test_setbit
+test: test_getbit test_int2bin test_setbit test_add
 	@echo
 
 test_getbit: $(TESTDIR)test_get_bit.c lib
@@ -60,6 +60,12 @@ test_setbit: $(TESTDIR)test_set_bit.c lib
 	@$(CC) $(CF) $(TEST_FLAGS) $< -o test_set_bit -L. $(TARGET)
 	@./test_set_bit
 	@rm -f test_set_bit
+
+test_add: $(TESTDIR)test_add.c lib
+	@echo "\033[0;33m\n$<\033[0m"
+	@$(CC) $(CF) $(TEST_FLAGS) $< -o test_add -L. $(TARGET)
+	@./test_add
+	@rm -f test_add
 
 # SERVICES
 style:
