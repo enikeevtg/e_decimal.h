@@ -5,14 +5,14 @@
  * @return array of values of the number bits
  */
 
-#include "../s21_decimal.h"
+#include "../e_decimal.h"
 
-int* s21_int_to_bin(int number) {
+int* e_int_to_bin(int number) {
   static int _0b_number[32];
   int index = 31;
   int bit_pos = 0;
   while (index) {
-    _0b_number[index] = s21_get_bit(number, bit_pos);
+    _0b_number[index] = e_get_bit(number, bit_pos);
     index--;
     bit_pos++;
   }

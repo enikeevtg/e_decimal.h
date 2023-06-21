@@ -1,31 +1,65 @@
-.PHONY: all clean test s21_decimal.a gcov_report
+.PHONY: all clean test e_decimal.a gcov_report
 
 # UTILITIES
 CC = gcc
+AR = ar rs
+RAN = ranlib
+MK = mkdir -p
 
 # UTILITIES OPTIONS
 CF = -Wall -Werror -Wextra
 TEST_FLAGS = -lcheck
 
 # FILENAMES
+TARGET = e_decimal.a
 SRCDIR = src/
 OBJDIR = obj/
-TESTDIR = tests/
+SRC = $(wildcard $(SRCDIR)*.c)
+OBJ = $(patsubst $(SRCDIR)%.c, $(OBJDIR)%.o, $(SRC))
+TESTDIR = tests_int/
 
-# MAIN TARGETS
+
+# MAIN TARGET
+lib: $(TARGET)
+
+$(TARGET): objects
+	@$(AR) $@ $(OBJ)
+	@$(RAN) $@
+	@echo "$(AR): creating library $(TARGET) \033[0;32msuccess\033[0m"
+
+objects: makeobjdir $(OBJ) OBJ_SUCCESS
+
+makeobjdir:
+	@$(MK) $(OBJDIR)
+
+$(OBJDIR)%.o: $(SRCDIR)%.c
+	@$(CC) $(CF) -c $^ -o $@
+
+OBJ_SUCCESS:
+	@echo "$(CC): objects compilation \033[0;32msuccess\033[0m"
+
+
 # TESTS
-test_getbit: $(TESTDIR)test_get_bit.c $(SRCDIR)*.c
-	@$(CC) $(CF) $(TEST_FLAGS) $^ -o test_get_bit
+test: test_getbit test_int2bin test_setbit
+	@echo
+
+test_getbit: $(TESTDIR)test_get_bit.c lib
+	@echo "\033[0;33m\n$<\033[0m"
+	@$(CC) $(CF) $(TEST_FLAGS) $< -o test_get_bit -L. $(TARGET)
 	@./test_get_bit
 	@rm -f test_get_bit
 
-test_int2bin: $(TESTDIR)test_int_to_bin.c $(SRCDIR)*.c
-	@$(CC) $(CF) $(TEST_FLAGS) $^ -o test_int_to_bin
+test_int2bin: $(TESTDIR)test_int_to_bin.c lib
+	@echo "\033[0;33m\n$<\033[0m"
+	@$(CC) $(CF) $(TEST_FLAGS) $< -o test_int_to_bin  -L. $(TARGET)
 	@./test_int_to_bin
 	@rm -f test_int_to_bin
 
-
-
+test_setbit: $(TESTDIR)test_set_bit.c lib
+	@echo "\033[0;33m\n$<\033[0m"
+	@$(CC) $(CF) $(TEST_FLAGS) $< -o test_set_bit -L. $(TARGET)
+	@./test_set_bit
+	@rm -f test_set_bit
 
 # SERVICES
 style:
@@ -35,4 +69,4 @@ tostyle:
 	clang-format --style=google -i $(SRCDIR)*.c *.h $(TESTDIR)*.c
 
 clean:
-	rm -f *.o *.out *.gch
+	rm -rf $(TARGET) $(OBJDIR) *.out *.gch

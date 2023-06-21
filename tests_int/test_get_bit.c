@@ -1,19 +1,18 @@
 #include <check.h>
 #include <stdio.h>
 
-#include "../s21_decimal.h"
+#include "../e_decimal.h"
 
 START_TEST(get_bit_11) {
   // Arrange
-  //                                                 76543210
-  int number = 11;  // 0b 00000000 00000000 00000000 00001011
+  int number = 11;
   char _0b_11_str[33] = "00000000000000000000000000001011";
 
   // Act
   char str[33];
   str[32] = '\0';
   int i = 32;
-  while (i--) str[31 - i] = s21_get_bit(number, i) + 48;
+  while (i--) str[31 - i] = e_get_bit(number, i) + 48;
 
   // Assert
   ck_assert_str_eq(str, _0b_11_str);

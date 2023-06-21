@@ -1,7 +1,22 @@
 #include <check.h>
 #include <stdio.h>
 
-#include "../s21_decimal.h"
+#include "../e_decimal.h"
+
+START_TEST(int_to_bin_8) {
+  // Arrange
+  //                                                      76543210
+  int test_number = 8;  // 0b 00000000 00000000 00000000 00001011
+  int _0b_8[32] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0};
+
+  // Act
+  int* result = e_int_to_bin(test_number);
+
+  // Assert
+  ck_assert_mem_eq(_0b_8, result, 32 * sizeof(int));
+}
+END_TEST
 
 START_TEST(int_to_bin_11) {
   // Arrange
@@ -11,7 +26,7 @@ START_TEST(int_to_bin_11) {
                     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1};
 
   // Act
-  int* result = s21_int_to_bin(test_number);
+  int* result = e_int_to_bin(test_number);
 
   // Assert
   ck_assert_mem_eq(_0b_11, result, 32 * sizeof(int));
@@ -19,14 +34,13 @@ START_TEST(int_to_bin_11) {
 END_TEST
 
 Suite* int_to_bin_func(void) {
-  Suite* s;
-  TCase* tc_1;
+  Suite* s = suite_create("int_to_bin function tests");
+  TCase* tc = tcase_create("integer_tests");
 
-  s = suite_create("int_to_bin function");
+  tcase_add_test(tc, int_to_bin_8);
+  tcase_add_test(tc, int_to_bin_11);
 
-  tc_1 = tcase_create("Eleven");
-  tcase_add_test(tc_1, int_to_bin_11);
-  suite_add_tcase(s, tc_1);
+  suite_add_tcase(s, tc);
 
   return s;
 }
