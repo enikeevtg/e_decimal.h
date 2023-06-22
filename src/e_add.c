@@ -1,10 +1,11 @@
 /**
  * @author T. Enikeev
  * enikeev.tg@gmail.com
- * @brief binary sum
+ * @brief three versions of two integer variables summation
+ * by using differents approaches
  *
- * @param 'value' is the number function should get 'bit_value'.
- * @param 'bit_pos' is the bit position of the number bit function should get.
+ * @param 'value_1' and 'value_2' is the numbers have to be summarized.
+ * @param 'result' is the pointer to result variable.
  *
  * @return error codes:
  * 0 - OK
@@ -14,30 +15,59 @@
 
 #include "../e_decimal.h"
 
-// version for int type of value by each bit processing:
+/*
+ v.3 for int type of value with 'div' and 'mod' operaions using
+*/
 int e_add(int value_1, int value_2, int* result) {
   *result = 0;
   if (!value_1) *result = value_2;
   if (!value_2) *result = value_1;
   if (!*result) {
-    int bit_value_1 = 0;
-    int bit_value_2 = 0;
-    int bit_buffer = 0;
-    int result_bit = 0;
+    int bit_value_1 = 0;   // value_1 current bit
+    int bit_value_2 = 0;   // value_2 current bit
+    int result_bit = 0;    // value that has to be set to the result bit
+    int bit_overflow = 0;  // current result bit overflow buffer
     for (int i = 0; i < 32; i++) {
       bit_value_1 = e_get_bit(value_1, i);
       bit_value_2 = e_get_bit(value_2, i);
-      result_bit = bit_value_1 ^ bit_value_2;
-      result_bit ^= bit_buffer;
-      bit_buffer = (bit_value_1 & bit_value_2) |
-                   ((bit_value_1 ^ bit_value_2) & bit_buffer);
+      result_bit = (bit_value_1 + bit_value_2 + bit_overflow) % 2;
+      bit_overflow = (bit_value_1 + bit_value_2 + bit_overflow) / 2;
       e_set_bit(result, i, result_bit);
     }
   }
   return 0;
 }
 
-// version for int type of value by recursion:
+/*
+v.2 for int type of value with Boolean logical operations using
+*/
+// int e_add(int value_1, int value_2, int* result) {
+//   *result = 0;
+//   if (!value_1) *result = value_2;
+//   if (!value_2) *result = value_1;
+//   if (!*result) {
+//     int bit_value_1 = 0;   // value_1 current bit
+//     int bit_value_2 = 0;   // value_2 current bit
+//     int result_bit = 0;    // value that has to be set to the result bit
+//     int bit_overflow = 0;  // current result bit overflow buffer
+//     for (int i = 0; i < 32; i++) {
+//       bit_value_1 = e_get_bit(value_1, i);
+//       bit_value_2 = e_get_bit(value_2, i);
+//       result_bit = bit_value_1 ^ bit_value_2;
+//       result_bit ^= bit_overflow;
+//       bit_overflow = (bit_value_1 & bit_value_2) | ((bit_value_1 ^
+//       bit_value_2) & bit_overflow);  // if current bits: (1+1) or (1+0 and +1
+//       // from previous bits)
+//       e_set_bit(result, i, result_bit);
+//     }
+//   }
+//   return 0;
+// }
+
+/*
+v.1 for int type of value with Boolean logical operations and recursion
+using
+*/
 // int e_add(int value_1, int value_2, int* result) {
 //   *result = 0;
 //   if (!value_1) *result = value_2;

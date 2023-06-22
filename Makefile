@@ -44,25 +44,25 @@ test: test_getbit test_int2bin test_setbit test_add
 	@echo
 
 test_getbit: $(TESTDIR)test_get_bit.c lib
-	@echo "\033[0;33m\n$<\033[0m"
+	@echo "\n\033[0;33m$<\033[0m"
 	@$(CC) $(CF) $(TEST_FLAGS) $< -o test_get_bit -L. $(TARGET)
 	@./test_get_bit
 	@rm -f test_get_bit
 
 test_int2bin: $(TESTDIR)test_int_to_bin.c lib
-	@echo "\033[0;33m\n$<\033[0m"
+	@echo "\n\033[0;33m$<\033[0m"
 	@$(CC) $(CF) $(TEST_FLAGS) $< -o test_int_to_bin  -L. $(TARGET)
 	@./test_int_to_bin
 	@rm -f test_int_to_bin
 
 test_setbit: $(TESTDIR)test_set_bit.c lib
-	@echo "\033[0;33m\n$<\033[0m"
+	@echo "\n\033[0;33m$<\033[0m"
 	@$(CC) $(CF) $(TEST_FLAGS) $< -o test_set_bit -L. $(TARGET)
 	@./test_set_bit
 	@rm -f test_set_bit
 
 test_add: $(TESTDIR)test_add.c lib
-	@echo "\033[0;33m\n$<\033[0m"
+	@echo "\n\033[0;33m$<\033[0m"
 	@$(CC) $(CF) $(TEST_FLAGS) $< -o test_add -L. $(TARGET)
 	@./test_add
 	@rm -f test_add

@@ -54,10 +54,12 @@ int main(void) {
   runner = srunner_create(int_to_bin_suite);
 
   srunner_run_all(runner, CK_NORMAL);
+  int tests_count = srunner_ntests_run(runner);
   failed += srunner_ntests_failed(runner);
   srunner_free(runner);
 
-  printf("FAILED: %d\n", failed);
+  printf("\033[0;32mSUCCESS: %d\n", tests_count - failed);
+  printf("\033[0;31mFAILED: %d\n", failed);
 
   return failed ? 1 : 0;
 }
