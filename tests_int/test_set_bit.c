@@ -1,7 +1,7 @@
 #include <check.h>
 #include <stdio.h>
 
-#include "../e_decimal.h"
+#include "../e_integer.h"
 
 START_TEST(set_bit_0) {
   // Arrange

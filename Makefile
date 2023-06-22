@@ -11,12 +11,15 @@ CF = -Wall -Werror -Wextra
 TEST_FLAGS = -lcheck
 
 # FILENAMES
-TARGET = e_decimal.a
-SRCDIR = src/
+TARGET = e_integer.a
+# TARGET = e_decimal.a
+SRCDIR = src_int/
+# SRCDIR = src/
 OBJDIR = obj/
 SRC = $(wildcard $(SRCDIR)*.c)
 OBJ = $(patsubst $(SRCDIR)%.c, $(OBJDIR)%.o, $(SRC))
 TESTDIR = tests_int/
+# TESTDIR = tests_dec/
 
 
 # MAIN TARGET
@@ -40,8 +43,10 @@ OBJ_SUCCESS:
 
 
 # TESTS
-test: test_getbit test_int2bin test_setbit test_add
-	@echo
+test: lib UT_start_msg test_getbit test_setbit test_add test_shift
+
+UT_start_msg:
+	@echo "\n\033[0;32m>>>>>>>>SET OF UNIT TESTS LAUNCHED<<<<<<<<\033[0m"
 
 test_getbit: $(TESTDIR)test_get_bit.c lib
 	@echo "\n\033[0;33m$<\033[0m"
@@ -67,11 +72,17 @@ test_add: $(TESTDIR)test_add.c lib
 	@./test_add
 	@rm -f test_add
 
+test_shift: $(TESTDIR)test_shift.c lib
+	@echo "\n\033[0;33m$<\033[0m"
+	@$(CC) $(CF) $(TEST_FLAGS) $< -o test_shift -L. $(TARGET)
+	@./test_shift
+	@rm -f test_shift
+
 # SERVICES
 style:
 	clang-format --style=google -n $(SRCDIR)*.c *.h $(TESTDIR)*.c
 	
-tostyle:
+gost:
 	clang-format --style=google -i $(SRCDIR)*.c *.h $(TESTDIR)*.c
 
 clean:

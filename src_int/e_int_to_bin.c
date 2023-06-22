@@ -5,7 +5,7 @@
  * @return array of values of the number bits
  */
 
-#include "../e_decimal.h"
+#include "../e_integer.h"
 
 int* e_int_to_bin(int number) {
   static int _0b_number[32];

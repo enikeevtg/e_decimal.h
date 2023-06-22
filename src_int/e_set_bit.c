@@ -11,14 +11,14 @@
  * @warning If the bit_pos > 95 (31 for int), function doesn't make changes.
  */
 
-#include "../e_decimal.h"
+#include "../e_integer.h"
 
-void e_set_bit(e_decimal* value, int bit_pos, int bit_value) {
-  if (bit_pos < 96) {
-    int bit_mask = 1U << (bit_pos % 32);
+void e_set_bit(int* value, int bit_pos, int bit_value) {
+  if (bit_pos < 32) {
+    int bit_mask = 1U << bit_pos;
     if (bit_value)
-      value->bits[bit_pos / 32] |= bit_mask;
+      *value |= bit_mask;
     else
-      value->bits[bit_pos / 32] &= ~bit_mask;
+      *value &= ~bit_mask;
   }
 }

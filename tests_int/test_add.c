@@ -1,76 +1,76 @@
 #include <check.h>
 #include <stdio.h>
 
-#include "../e_decimal.h"
+#include "../e_integer.h"
 
-START_TEST(add_test_pos) {
+START_TEST(add_pos) {
   // Arrange
   int n1 = 11;
   int n2 = 21;
-  int res = 0;
+  int sum = 0;
 
   // Act
-  e_add(n1, n2, &res);
+  e_add(n1, n2, &sum);
 
   // Assert
-  ck_assert_int_eq(res, n1 + n2);
+  ck_assert_int_eq(sum, n1 + n2);
 }
 END_TEST
 
-START_TEST(add_test_neg) {
+START_TEST(add_neg) {
   // Arrange
   int n1 = -11;
   int n2 = -21;
-  int res = 0;
+  int sum = 0;
 
   // Act
-  e_add(n1, n2, &res);
+  e_add(n1, n2, &sum);
 
   // Assert
-  ck_assert_int_eq(res, n1 + n2);
+  ck_assert_int_eq(sum, n1 + n2);
 }
 END_TEST
 
-START_TEST(add_test_pos_neg) {
+START_TEST(add_pos_neg) {
   // Arrange
   int n1 = 11;
   int n2 = -21;
-  int res = 0;
+  int sum = 0;
 
   // Act
-  e_add(n1, n2, &res);
+  e_add(n1, n2, &sum);
 
   // Assert
-  ck_assert_int_eq(res, n1 + n2);
+  ck_assert_int_eq(sum, n1 + n2);
 }
 END_TEST
 
-START_TEST(add_test_neg_pos) {
+START_TEST(add_neg_pos) {
   // Arrange
   int n1 = -11;
   int n2 = -21;
-  int res = 0;
+  int sum = 0;
 
   // Act
-  e_add(n1, n2, &res);
+  e_add(n1, n2, &sum);
 
   // Assert
-  ck_assert_int_eq(res, n1 + n2);
+  ck_assert_int_eq(sum, n1 + n2);
 }
 END_TEST
 
 Suite* add_func(void) {
   Suite* s;
-  TCase* tc_1;
+  TCase* tc_add;
 
   s = suite_create("add function");
 
-  tc_1 = tcase_create("11 + 21");
-  tcase_add_test(tc_1, add_test_pos);
-  tcase_add_test(tc_1, add_test_neg);
-  tcase_add_test(tc_1, add_test_pos_neg);
-  tcase_add_test(tc_1, add_test_neg_pos);
-  suite_add_tcase(s, tc_1);
+  tc_add = tcase_create("two numbers summation");
+  tcase_add_test(tc_add, add_pos);
+  tcase_add_test(tc_add, add_neg);
+  tcase_add_test(tc_add, add_pos_neg);
+  tcase_add_test(tc_add, add_neg_pos);
+  suite_add_tcase(s, tc_add);
 
   return s;
 }
@@ -93,4 +93,3 @@ int main(void) {
 
   return failed ? 1 : 0;
 }
-

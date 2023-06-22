@@ -10,10 +10,10 @@
  * @return 'bit_value' is value of the number bit in position bit_pos
  */
 
-#include "../e_decimal.h"
+#include "../e_integer.h"
 
-int e_get_bit(e_decimal value, int bit_pos) {
-  unsigned int bit_mask = 1U << (bit_pos % 32);
-  int bit_value = bit_mask & value.bits[bit_pos / 32];
+int e_get_bit(int value, int bit_pos) {
+  int bit_mask = 1U << bit_pos;
+  int bit_value = bit_mask & value;
   return bit_value ? 1 : 0;
 }
