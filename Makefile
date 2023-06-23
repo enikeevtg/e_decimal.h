@@ -11,15 +11,12 @@ CF = -Wall -Werror -Wextra
 TEST_FLAGS = -lcheck
 
 # FILENAMES
-TARGET = e_integer.a
-# TARGET = e_decimal.a
-SRCDIR = src_int/
-# SRCDIR = src/
+TARGET = e_decimal.a
+SRCDIR = src/
 OBJDIR = obj/
 SRC = $(wildcard $(SRCDIR)*.c)
 OBJ = $(patsubst $(SRCDIR)%.c, $(OBJDIR)%.o, $(SRC))
-TESTDIR = tests_int/
-# TESTDIR = tests_dec/
+TESTDIR = tests/
 
 
 # MAIN TARGET
@@ -36,47 +33,51 @@ makeobjdir:
 	@$(MK) $(OBJDIR)
 
 $(OBJDIR)%.o: $(SRCDIR)%.c
-	@$(CC) $(CF) -c $^ -o $@
+	@$(CC) $(CF) -c $< -o $@
 
 OBJ_SUCCESS:
 	@echo "$(CC): objects compilation \033[0;32msuccess\033[0m"
 
 
 # TESTS
-test: lib UT_start_msg test_getbit test_setbit test_add test_shift
+test: lib UT_start_msg test_get test_set test_add test_sub #test_shift
 
 UT_start_msg:
 	@echo "\n\033[0;32m>>>>>>>>SET OF UNIT TESTS LAUNCHED<<<<<<<<\033[0m"
 
-test_getbit: $(TESTDIR)test_get_bit.c lib
-	@echo "\n\033[0;33m$<\033[0m"
-	@$(CC) $(CF) $(TEST_FLAGS) $< -o test_get_bit -L. $(TARGET)
-	@./test_get_bit
-	@rm -f test_get_bit
+test_get: test_get_bit
 
-test_int2bin: $(TESTDIR)test_int_to_bin.c lib
+test_get_bit: $(TESTDIR)test_get_bit.c lib
 	@echo "\n\033[0;33m$<\033[0m"
-	@$(CC) $(CF) $(TEST_FLAGS) $< -o test_int_to_bin  -L. $(TARGET)
-	@./test_int_to_bin
-	@rm -f test_int_to_bin
+	@$(CC) $(CF) $(TEST_FLAGS) $< -o $@ -L. $(TARGET)
+	@./$@
+	@rm -f $@
 
-test_setbit: $(TESTDIR)test_set_bit.c lib
+test_set: test_set_bit
+
+test_set_bit: $(TESTDIR)test_set_bit.c lib
 	@echo "\n\033[0;33m$<\033[0m"
-	@$(CC) $(CF) $(TEST_FLAGS) $< -o test_set_bit -L. $(TARGET)
-	@./test_set_bit
-	@rm -f test_set_bit
+	@$(CC) $(CF) $(TEST_FLAGS) $< -o $@ -L. $(TARGET)
+	@./$@
+	@rm -f $@
 
 test_add: $(TESTDIR)test_add.c lib
 	@echo "\n\033[0;33m$<\033[0m"
-	@$(CC) $(CF) $(TEST_FLAGS) $< -o test_add -L. $(TARGET)
-	@./test_add
-	@rm -f test_add
+	@$(CC) $(CF) $(TEST_FLAGS) $< -o $@ -L. $(TARGET)
+	@./$@
+	@rm -f $@
+
+test_sub: $(TESTDIR)test_sub.c lib
+	@echo "\n\033[0;33m$<\033[0m"
+	@$(CC) $(CF) $(TEST_FLAGS) $< -o $@ -L. $(TARGET)
+	@./$@
+	@rm -f $@
 
 test_shift: $(TESTDIR)test_shift.c lib
 	@echo "\n\033[0;33m$<\033[0m"
-	@$(CC) $(CF) $(TEST_FLAGS) $< -o test_shift -L. $(TARGET)
-	@./test_shift
-	@rm -f test_shift
+	@$(CC) $(CF) $(TEST_FLAGS) $< -o $@ -L. $(TARGET)
+	@./$@
+	@rm -f $@
 
 # SERVICES
 style:
