@@ -37,7 +37,6 @@ Suite* set_bit_func(void) {
 }
 
 int main(void) {
-  int failed = 0;
   Suite* set_bit_suite;
   SRunner* runner;
 
@@ -45,10 +44,12 @@ int main(void) {
   runner = srunner_create(set_bit_suite);
 
   srunner_run_all(runner, CK_NORMAL);
-  failed += srunner_ntests_failed(runner);
+  int tests_count = srunner_ntests_run(runner);
+  int failed = srunner_ntests_failed(runner);
   srunner_free(runner);
 
-  printf("FAILED: %d\n", failed);
+  printf("\033[0;32mSUCCESS: %d\n", tests_count - failed);
+  printf("\033[0;31mFAILED: %d\n", failed);
 
   return failed ? 1 : 0;
 }

@@ -50,7 +50,6 @@ Suite* add_func(void) {
 }
 
 int main(void) {
-  int failed = 0;
   Suite* add_suite;
   SRunner* runner;
 
@@ -59,7 +58,7 @@ int main(void) {
 
   srunner_run_all(runner, CK_NORMAL);
   int tests_count = srunner_ntests_run(runner);
-  failed += srunner_ntests_failed(runner);
+  int failed = srunner_ntests_failed(runner);
   srunner_free(runner);
 
   printf("\033[0;32mSUCCESS: %d\n", tests_count - failed);

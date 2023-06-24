@@ -16,11 +16,18 @@
 #include "../e_decimal.h"
 
 int e_sub(e_decimal value_1, e_decimal value_2, e_decimal* result) {
+#ifdef DEBUG
   printf("         value_1: %s\n", e_dec_to_str(&value_1));
   printf("         value_2: %s\n", e_dec_to_str(&value_2));
+#endif  // DEBUG
   e_bin_convert(&value_2);
   e_add(value_1, value_2, result);
-  printf("summation result: %s\n", e_dec_to_str(result));
-  if (!e_get_bit(*result, 95)) e_bin_convert(result);
+#ifdef DEBUG
+  // printf("summation result: %s\n", e_dec_to_str(result));  // DEBUG
+#endif  // DEBUG
+  if (!e_get_bit(*result, 95)) {
+    e_bin_convert(result);
+    e_set_sign(result, 1);
+  }
   return 0;
 }

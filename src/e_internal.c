@@ -21,6 +21,10 @@ void e_set_bit(e_decimal* value, int bit_pos, int bit_value) {
       value->bits[bit_pos / 32] &= ~bit_mask;
 }
 
+void e_set_sign(e_decimal* value, int sign) {
+  return e_set_bit(value, 127, sign);
+}
+
 char* e_dec_to_str(e_decimal* value) {
   static char str[129] = {0};
   str[128] = '\0';
@@ -67,8 +71,12 @@ e_decimal e_shift_to_left(e_decimal value, int offset) {
 
 void e_bin_convert(e_decimal* value) {
   for (int i = 0; i < 3; i++) value->bits[i] = ~value->bits[i];
-  printf("inversion result: %s\n", e_dec_to_str(value));
+#ifdef DEBUG
+  printf("inversion result: %s\n", e_dec_to_str(value));  // DEBUG
+#endif  // DEBUG
   e_decimal big_1U = {{1, 0, 0, 0}};
   e_add(*value, big_1U, value);
-  printf("     + 1U result: %s\n", e_dec_to_str(value));
+#ifdef DEBUG
+  printf("     + 1U result: %s\n", e_dec_to_str(value));  // DEBUG
+#endif  // DEBUG
 }

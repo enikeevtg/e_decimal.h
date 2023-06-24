@@ -27,6 +27,7 @@ int e_sub(e_decimal value_1, e_decimal value_2, e_decimal* result);
 // INTERNAL FUNCTIONS
 int e_get_bit(e_decimal value, int bit_pos);
 void e_set_bit(e_decimal* value, int bit_pos, int bit_value);
+void e_set_sign(e_decimal* value, int sign);
 char* e_dec_to_str(e_decimal* value);
 
 int boundary_nills(e_decimal value, int direction);

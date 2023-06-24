@@ -27,7 +27,9 @@ START_TEST(sub_1) {
   // Assert
   char* res_str = e_dec_to_str(&res);
   char bin_str[129] = "00000000000000000000000000000000101011010100101011010100101011011001011010010110100101101001011000011010010010110000111000011010";
+#ifdef DEBUG
   printf("\nresult: %s\nstring: %s\n\n", res_str, bin_str);
+#endif  // DEBUG
 
   ck_assert_str_eq(res_str, bin_str);
 }
@@ -58,7 +60,9 @@ START_TEST(sub_2) {
   // Assert
   char* res_str = e_dec_to_str(&res);
   char bin_str[129] = "10000000000000000000000000000000101011010100101011010100101011011001011010010110100101101001011000011010010010110000111000011010";
-  printf("\nresult: %s\nstring: %s\n\n", res_str, bin_str);
+#ifdef DEBUG
+  printf("\nresult: %s\nstring: %s\n\n", res_str, bin_str);  // DEBUG
+#endif  // DEBUG
 
   ck_assert_str_eq(res_str, bin_str);
 }
@@ -81,7 +85,6 @@ Suite* sub_func(void) {
 }
 
 int main(void) {
-  int failed = 0;
   Suite* sub_suite;
   SRunner* runner;
 
@@ -90,7 +93,7 @@ int main(void) {
 
   srunner_run_all(runner, CK_NORMAL);
   int tests_count = srunner_ntests_run(runner);
-  failed += srunner_ntests_failed(runner);
+  int failed = srunner_ntests_failed(runner);
   srunner_free(runner);
 
   printf("\033[0;32mSUCCESS: %d\n", tests_count - failed);
