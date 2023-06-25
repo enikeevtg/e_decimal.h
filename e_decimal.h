@@ -6,8 +6,10 @@
 #define TRUE 1
 #define FALSE 0
 
-#define RIGHT_SHIFT 1
-#define LEFT_SHIFT -1
+#define RIGHT_SIDE 1
+#define LEFT_SIDE -1
+
+#define MANTISSA_MAX_BIT 95
 
 // TYPES AND STUCTURES
 typedef struct {
@@ -26,15 +28,24 @@ int e_sub(e_decimal value_1, e_decimal value_2, e_decimal* result);
 
 // INTERNAL FUNCTIONS
 int e_get_bit(e_decimal value, int bit_pos);
+int e_get_sign(e_decimal value);
+int e_get_scale(e_decimal value);
 void e_set_bit(e_decimal* value, int bit_pos, int bit_value);
 void e_set_sign(e_decimal* value, int sign);
-char* e_dec_to_str(e_decimal* value);
+void e_set_scale(e_decimal* value, int scale);
 
-int boundary_nills(e_decimal value, int direction);
+char* e_dec_to_str(e_decimal* value);
+void e_bin_convert(e_decimal* value);
+int e_dec_is_nill(e_decimal value);
+
+
+int boundary_nills(e_decimal value, int side);
 e_decimal e_shift_to_right(e_decimal value, int offset);
 e_decimal e_shift_to_left(e_decimal value, int offset);
 
-void e_bin_convert(e_decimal* value);
 
+// int e_norm(e_decimal* value_1, e_decimal* value_2);
+// void e_normalize(e_decimal* value, int scale_src, int scale_dest);
+int e_mul_10(e_decimal value, e_decimal* result);
 
 #endif  // _SRC_TAGIR_E_DECIMAL_H_

@@ -16,11 +16,12 @@
 #include "../e_decimal.h"
 
 int e_add(e_decimal val_1, e_decimal val_2, e_decimal* result) {
-  if (!val_1.bits[_low] && !val_1.bits[_mid] && !val_1.bits[_high])
+  if (e_dec_is_nill(val_1))
     *result = val_2;
-  else if (!val_2.bits[_low] && !val_2.bits[_mid] && !val_2.bits[_high])
+  else if (e_dec_is_nill(val_2))
     *result = val_1;
   else {
+    // if (e_get_scale(val_1) != e_get_scale(val_2)) e_norm(&val_1, &val_2);
     int bit_val_1 = 0;     // val_1 current bit
     int bit_val_2 = 0;     // val_2 current bit
     int result_bit = 0;    // bit value that has to be set to the result bit

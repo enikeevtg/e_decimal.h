@@ -15,6 +15,13 @@
 
 #include "../e_decimal.h"
 
+// // v.2 subtitution by bits
+// int e_sub(e_decimal value_1, e_decimal value_2, e_decimal* result) {
+
+//   return 0;
+// }
+
+// v.1 with two's complement representation
 int e_sub(e_decimal value_1, e_decimal value_2, e_decimal* result) {
 #ifdef DEBUG
   printf("         value_1: %s\n", e_dec_to_str(&value_1));

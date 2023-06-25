@@ -13,15 +13,28 @@ DEBUG = #-DDEBUG
 
 # FILENAMES
 TARGET = e_decimal.a
-SRCDIR = src/
-OBJDIR = obj/
-SRC = $(wildcard $(SRCDIR)*.c)
-OBJ = $(patsubst $(SRCDIR)%.c, $(OBJDIR)%.o, $(SRC))
-TESTDIR = tests/
 
-LOG = test_e_decimal.log
-WRITELOG = >> $(LOG)
-OPENLOG = open $(LOG)
+### source code directories:
+ARITHMDIR = arithmetic/
+COMPDIR = comparison/
+CONVERTDIR = converters/
+INTERNALDIR = internal/
+
+SRC = $(wildcard $(ARITHMDIR)*.c)
+SRC += $(wildcard $(COMPDIR)*.c)
+SRC += $(wildcard $(CONVERTDIR)*.c)
+SRC += $(wildcard $(INTERNALDIR)*.c)
+
+OBJDIR = obj/
+OBJ = $(patsubst $(ARITHMDIR)%.c, $(OBJDIR)%.o, $(SRC))
+OBJ += $(patsubst $(INTERNALDIR)%.c, $(OBJDIR)%.o, $(SRC))
+
+TESTDIR = tests/
+TEST_TARGETS = test_addition test_subtruction test_get_bit test_set_bit test_get_scale test_shift
+
+# LOG = test_e_decimal.log
+# WRITELOG = >> $(LOG)
+# OPENLOG = open $(LOG)
 
 
 # MAIN TARGET
@@ -37,7 +50,10 @@ objects: makeobjdir $(OBJ) OBJ_SUCCESS
 makeobjdir:
 	@$(MK) $(OBJDIR)
 
-$(OBJDIR)%.o: $(SRCDIR)%.c
+$(OBJDIR)%.o: $(ARITHMDIR)%.c
+	@$(CC) $(CF) -c $< -o $@ $(DEBUG)
+
+$(OBJDIR)%.o: $(INTERNALDIR)%.c
 	@$(CC) $(CF) -c $< -o $@ $(DEBUG)
 
 OBJ_SUCCESS:
@@ -45,45 +61,62 @@ OBJ_SUCCESS:
 
 
 # TESTS
-test: clean lib UT_start_msg test_get test_set test_add test_sub #test_shift
+test: log_remove lib UT_start_msg $(TEST_TARGETS)
 	$(OPENLOG)
 
 UT_start_msg:
 	@echo "\n\033[0;32m>>>>>>>>SET OF UNIT TESTS LAUNCHED<<<<<<<<\033[0m" $(WRITELOG)
 
-test_get: test_get_bit
+### main functions tests
+test_add: log_remove test_addition
+	$(OPENLOG)
+
+test_addition: $(TESTDIR)test_add.c lib
+	@echo "\n\033[0;33m$<\033[0m" $(WRITELOG)
+	@$(CC) $(CF) $(TEST_FLAGS) $< -o $@ -L. $(TARGET)
+	@./$@ $(WRITELOG)
+	@rm -f $@
+
+test_sub: log_remove test_subtruction
+	$(OPENLOG)
+
+test_subtruction: $(TESTDIR)test_sub.c lib
+	@echo "\n\033[0;33m$<\033[0m" $(WRITELOG)
+	@$(CC) $(CF) $(TEST_FLAGS) $< -o $@ -L. $(TARGET) $(DEBUG)
+	@./$@ $(WRITELOG)
+	@rm -f $@
+
+### internal functions tests
+test_get: log_remove test_get_bit test_get_scale
+	$(OPENLOG)
 
 test_get_bit: $(TESTDIR)test_get_bit.c lib
 	@echo "\n\033[0;33m$<\033[0m" $(WRITELOG)
-	@$(CC) $(CF) $(TEST_FLAGS) $< -o $@ -L. $(TARGET) $(WRITELOG)
+	@$(CC) $(CF) $(TEST_FLAGS) $< -o $@ -L. $(TARGET)
 	@./$@ $(WRITELOG)
-	@rm -f $@ $(WRITELOG)
+	@rm -f $@
 
-test_set: test_set_bit
+test_set: log_remove test_set_bit
+	$(OPENLOG)
 
 test_set_bit: $(TESTDIR)test_set_bit.c lib
 	@echo "\n\033[0;33m$<\033[0m" $(WRITELOG)
-	@$(CC) $(CF) $(TEST_FLAGS) $< -o $@ -L. $(TARGET) $(WRITELOG)
+	@$(CC) $(CF) $(TEST_FLAGS) $< -o $@ -L. $(TARGET)
 	@./$@ $(WRITELOG)
-	@rm -f $@ $(WRITELOG)
+	@rm -f $@
 
-test_add: $(TESTDIR)test_add.c lib
+test_get_scale: $(TESTDIR)test_get_scale.c lib
 	@echo "\n\033[0;33m$<\033[0m" $(WRITELOG)
-	@$(CC) $(CF) $(TEST_FLAGS) $< -o $@ -L. $(TARGET) $(WRITELOG)
+	@$(CC) $(CF) $(TEST_FLAGS) $< -o $@ -L. $(TARGET)
 	@./$@ $(WRITELOG)
-	@rm -f $@ $(WRITELOG)
-
-test_sub: $(TESTDIR)test_sub.c lib
-	@echo "\n\033[0;33m$<\033[0m" $(WRITELOG)
-	@$(CC) $(CF) $(TEST_FLAGS) $< -o $@ -L. $(TARGET) $(DEBUG) $(WRITELOG)
-	@./$@ $(WRITELOG)
-	@rm -f $@ $(WRITELOG)
+	@rm -f $@
 
 test_shift: $(TESTDIR)test_shift.c lib
 	@echo "\n\033[0;33m$<\033[0m" $(WRITELOG)
-	@$(CC) $(CF) $(TEST_FLAGS) $< -o $@ -L. $(TARGET) $(WRITELOG)
+	@$(CC) $(CF) $(TEST_FLAGS) $< -o $@ -L. $(TARGET)
 	@./$@ $(WRITELOG)
-	@rm -f $@ $(WRITELOG)
+	@rm -f $@
+
 
 # SERVICES
 style:
@@ -92,5 +125,8 @@ style:
 gost:
 	clang-format --style=google -i $(SRCDIR)*.c *.h $(TESTDIR)*.c
 
-clean:
-	rm -rf $(TARGET) $(OBJDIR) *.out *.gch $(LOG)
+clean: log_remove
+	rm -rf $(TARGET) $(OBJDIR) *.out *.gch
+
+log_remove:
+	rm -rf $(LOG)

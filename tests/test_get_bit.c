@@ -10,11 +10,11 @@ START_TEST(get_bit_1) {
   number.bits[0] = 0b10110100101101001011010010110100;
   number.bits[1] = 0b10010110100101101001011010010110;
   number.bits[2] = 0b10101101010010101101010010101101;
-  number.bits[3] = 0b10000000011010011000000000000000;
-  char bin_str[129] = "10000000011010011000000000000000101011010100101011010100101011011001011010010110100101101001011010110100101101001011010010110100";
+  number.bits[3] = 0b10000000011010010000000000000000;
+  char bin_str[129] = "10000000011010010000000000000000101011010100101011010100101011011001011010010110100101101001011010110100101101001011010010110100";
 
   // Act
-  char* res_str = e_dec_to_str(&number);
+  char* res_str = e_dec_to_str(&number);  // using e_get_bit() inside
   
   // Assert
   ck_assert_str_eq(res_str, bin_str);
@@ -27,7 +27,7 @@ Suite* get_bit_func(void) {
 
   s = suite_create("get_bit function");
 
-  tc_1 = tcase_create("Eleven");
+  tc_1 = tcase_create("get_bit function");
   tcase_add_test(tc_1, get_bit_1);
   suite_add_tcase(s, tc_1);
 
