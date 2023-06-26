@@ -5,6 +5,7 @@ CC = gcc
 AR = ar rs
 RAN = ranlib
 MK = mkdir -p
+OPEN = open -e  # -e option is for TextEdit.app
 
 # UTILITIES OPTIONS
 CF = -Wall -Werror -Wextra
@@ -30,11 +31,11 @@ OBJ = $(patsubst $(ARITHMDIR)%.c, $(OBJDIR)%.o, $(SRC))
 OBJ += $(patsubst $(INTERNALDIR)%.c, $(OBJDIR)%.o, $(SRC))
 
 TESTDIR = tests/
-TEST_TARGETS = test_addition test_subtruction test_get_bit test_set_bit test_get_scale test_shift
+TEST_TARGETS = test_addition test_subtruction test_get_funcs test_set_funcs test_shift
 
 # LOG = test_e_decimal.log
 # WRITELOG = >> $(LOG)
-# OPENLOG = open $(LOG)
+# OPENLOG = $(OPEN) $(LOG)
 
 
 # MAIN TARGET
@@ -87,25 +88,19 @@ test_subtruction: $(TESTDIR)test_sub.c lib
 	@rm -f $@
 
 ### internal functions tests
-test_get: log_remove test_get_bit test_get_scale
+test_gets: log_remove test_get_funcs
 	$(OPENLOG)
 
-test_get_bit: $(TESTDIR)test_get_bit.c lib
+test_get_funcs: $(TESTDIR)test_gets.c lib
 	@echo "\n\033[0;33m$<\033[0m" $(WRITELOG)
 	@$(CC) $(CF) $(TEST_FLAGS) $< -o $@ -L. $(TARGET)
 	@./$@ $(WRITELOG)
 	@rm -f $@
 
-test_set: log_remove test_set_bit
+test_sets: log_remove test_set_funcs
 	$(OPENLOG)
 
-test_set_bit: $(TESTDIR)test_set_bit.c lib
-	@echo "\n\033[0;33m$<\033[0m" $(WRITELOG)
-	@$(CC) $(CF) $(TEST_FLAGS) $< -o $@ -L. $(TARGET)
-	@./$@ $(WRITELOG)
-	@rm -f $@
-
-test_get_scale: $(TESTDIR)test_get_scale.c lib
+test_set_funcs: $(TESTDIR)test_sets.c lib
 	@echo "\n\033[0;33m$<\033[0m" $(WRITELOG)
 	@$(CC) $(CF) $(TEST_FLAGS) $< -o $@ -L. $(TARGET)
 	@./$@ $(WRITELOG)

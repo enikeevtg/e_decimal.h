@@ -29,9 +29,9 @@
 //   /*some code*/
 // }
 
-// int e_mul_10(e_decimal value, e_decimal* result) {
-//   e_decimal value_1 = e_shift_to_left(value, 1);
-//   e_decimal value_2 = e_shift_to_left(value, 3);
-//   e_add(value_1, value_2, result);
-//   return 0;
-// }
+int e_mul_10(e_decimal value, e_decimal* result) {
+  e_decimal value_1 = e_shift_to_left(value, 1);
+  e_decimal value_2 = e_shift_to_left(value, 3);
+  e_add(value_1, value_2, result);
+  return 0;
+}

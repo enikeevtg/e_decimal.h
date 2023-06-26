@@ -15,22 +15,22 @@
 
 #include "../e_decimal.h"
 
-int e_add(e_decimal val_1, e_decimal val_2, e_decimal* result) {
-  if (e_dec_is_nill(val_1))
-    *result = val_2;
-  else if (e_dec_is_nill(val_2))
-    *result = val_1;
+int e_add(e_decimal value_1, e_decimal value_2, e_decimal* result) {
+  if (e_dec_is_nill(value_1))
+    *result = value_2;
+  else if (e_dec_is_nill(value_2))
+    *result = value_1;
   else {
-    // if (e_get_scale(val_1) != e_get_scale(val_2)) e_norm(&val_1, &val_2);
-    int bit_val_1 = 0;     // val_1 current bit
-    int bit_val_2 = 0;     // val_2 current bit
+    // if (e_get_scale(value_1) != e_get_scale(value_2)) e_norm(&value_1, &value_2);
+    int bit_value_1 = 0;   // value_1 current bit
+    int bit_value_2 = 0;   // value_2 current bit
     int result_bit = 0;    // bit value that has to be set to the result bit
     int bit_overflow = 0;  // current result bit overflow buffer
     for (int i = 0; i < 96; i++) {
-      bit_val_1 = e_get_bit(val_1, i);
-      bit_val_2 = e_get_bit(val_2, i);
-      result_bit = (bit_val_1 + bit_val_2 + bit_overflow) % 2;
-      bit_overflow = (bit_val_1 + bit_val_2 + bit_overflow) / 2;
+      bit_value_1 = e_get_bit(value_1, i);
+      bit_value_2 = e_get_bit(value_2, i);
+      result_bit = (bit_value_1 + bit_value_2 + bit_overflow) % 2;
+      bit_overflow = (bit_value_1 + bit_value_2 + bit_overflow) / 2;
       e_set_bit(result, i, result_bit);
     }
   }

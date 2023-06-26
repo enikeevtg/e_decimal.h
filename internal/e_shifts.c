@@ -41,6 +41,10 @@ e_decimal e_shift_to_left(e_decimal value, int offset) {
   return value;
 }
 
+/// @brief Boundary nills in binary representation quantity calculation
+/// @param value e_decimal number
+/// @param side left or right side of number
+/// @return Quantity of boundary nills in number
 int boundary_nills(e_decimal value, int side) {
   int check_bit = (side == RIGHT_SIDE) ? 0 : MANTISSA_MAX_BIT;
   while (!e_get_bit(value, check_bit)) check_bit += side;
