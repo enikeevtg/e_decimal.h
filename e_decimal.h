@@ -28,8 +28,18 @@ enum { _low, _mid, _high, _form };
 // } e_big_decimal;
 
 // MAIN FUNCTIONS
+// arithmetic operators
 int e_add(e_decimal value_1, e_decimal value_2, e_decimal* result);
 int e_sub(e_decimal value_1, e_decimal value_2, e_decimal* result);
+
+// comparison operators
+int e_is_less(e_decimal value_1, e_decimal value_2);
+int e_is_less_or_equal(e_decimal value_1, e_decimal value_2);
+int e_is_greater(e_decimal value_1, e_decimal value_2);
+int e_is_greater_or_equal(e_decimal value_1, e_decimal value_2);
+int e_is_equal(e_decimal value_1, e_decimal value_2);
+int e_is_not_equal(e_decimal value_1, e_decimal value_2);
+
 
 // INTERNAL FUNCTIONS
 int e_get_bit(e_decimal value, int bit_pos);
@@ -44,6 +54,8 @@ char* e_dec_to_str(e_decimal* value);
 char* e_dec_to_split_str(e_decimal* value);
 void e_bin_convert(e_decimal* value);
 int e_dec_is_nill(e_decimal value);
+
+int e_dec_comparison(e_decimal value_1, e_decimal value_2);
 
 
 int boundary_nills(e_decimal value, int side);
