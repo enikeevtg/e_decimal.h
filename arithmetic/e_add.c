@@ -8,9 +8,9 @@
  * @param 'result' is the pointer to result variable.
  *
  * @return error codes:
- * 0 - OK
- * 1 - the number is too large or equal to infinity
- * 2 - the number is too small or equal to negative infinity
+ *         0 - OK
+ *         1 - the number is too large or equal to infinity
+ *         2 - the number is too small or equal to negative infinity
  */
 
 #include "../e_decimal.h"

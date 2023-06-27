@@ -26,7 +26,7 @@ int e_dec_comparison(e_decimal value_1, e_decimal value_2) {
   
   if (!match) {
     e_norm(&value_1, &value_2);
-    for (int i = 0; !match && i < 3; i++) {
+    for (int i = 2; !match && i >= 0; i--) {
       if (value_1.bits[i] > value_2.bits[i]) match = 1;
       if (value_1.bits[i] < value_2.bits[i]) match = -1;
     }

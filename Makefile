@@ -125,3 +125,9 @@ clean: log_remove
 
 log_remove:
 	rm -rf $(LOG)
+
+update:
+	sh ../scripts/update_gitlab_test.sh
+
+get:
+	sh ../scripts/get_test_from_gitlab.sh
