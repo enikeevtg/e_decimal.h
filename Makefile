@@ -8,7 +8,7 @@ MK = mkdir -p
 OPEN = open -e  # -e option is for TextEdit.app
 
 # UTILITIES OPTIONS
-CF = -Wall -Werror -Wextra
+CF = -Wall -Werror -Wextra -g
 TEST_FLAGS = -lcheck
 DEBUG = #-DDEBUG
 
@@ -19,23 +19,29 @@ TARGET = e_decimal.a
 ARITHMDIR = arithmetic/
 COMPDIR = comparison/
 CONVERTDIR = converters/
+ANOTHERDIR = another/
 INTERNALDIR = internal/
 
 SRC = $(wildcard $(ARITHMDIR)*.c)
 SRC += $(wildcard $(COMPDIR)*.c)
 SRC += $(wildcard $(CONVERTDIR)*.c)
+SRC += $(wildcard $(ANOTHERDIR)*.c)
 SRC += $(wildcard $(INTERNALDIR)*.c)
 
+### object files
 OBJDIR = obj/
 OBJ = $(patsubst $(ARITHMDIR)%.c, $(OBJDIR)%.o, $(SRC))
+OBJ += $(patsubst $(COMPDIR)%.c, $(OBJDIR)%.o, $(SRC))
+OBJ += $(patsubst $(ANOTHERDIR)%.c, $(OBJDIR)%.o, $(SRC))
 OBJ += $(patsubst $(INTERNALDIR)%.c, $(OBJDIR)%.o, $(SRC))
 
 TESTDIR = tests/
 TEST_TARGETS = test_addition test_subtruction test_get_funcs test_set_funcs test_shift
 
-# LOG = test_e_decimal.log
-# WRITELOG = >> $(LOG)
-# OPENLOG = $(OPEN) $(LOG)
+### log file
+LOG = test_e_decimal.log
+WRITELOG = >> $(LOG)
+OPENLOG = $(OPEN) $(LOG)
 
 
 # MAIN TARGET
@@ -54,6 +60,12 @@ makeobjdir:
 $(OBJDIR)%.o: $(ARITHMDIR)%.c
 	@$(CC) $(CF) -c $< -o $@ $(DEBUG)
 
+$(OBJDIR)%.o: $(COMPDIR)%.c
+	@$(CC) $(CF) -c $< -o $@ $(DEBUG)
+
+$(OBJDIR)%.o: $(ANOTHERDIR)%.c
+	@$(CC) $(CF) -c $< -o $@ $(DEBUG)
+
 $(OBJDIR)%.o: $(INTERNALDIR)%.c
 	@$(CC) $(CF) -c $< -o $@ $(DEBUG)
 
@@ -66,14 +78,14 @@ test: log_remove lib UT_start_msg $(TEST_TARGETS)
 	$(OPENLOG)
 
 UT_start_msg:
-	@echo "\n\033[0;32m>>>>>>>>SET OF UNIT TESTS LAUNCHED<<<<<<<<\033[0m" $(WRITELOG)
+	@echo "\n\033[0;32m  >>>>>>>>SET OF UNIT TESTS LAUNCHED<<<<<<<<\033[0m" $(WRITELOG)
 
 ### main functions tests
 test_add: log_remove test_addition
 	$(OPENLOG)
 
 test_addition: $(TESTDIR)test_add.c lib
-	@echo "\n\033[0;33m$<\033[0m" $(WRITELOG)
+	@echo "\n\033[0;33m  $<\033[0m" $(WRITELOG)
 	@$(CC) $(CF) $(TEST_FLAGS) $< -o $@ -L. $(TARGET)
 	@./$@ $(WRITELOG)
 	@rm -f $@
@@ -82,7 +94,7 @@ test_sub: log_remove test_subtruction
 	$(OPENLOG)
 
 test_subtruction: $(TESTDIR)test_sub.c lib
-	@echo "\n\033[0;33m$<\033[0m" $(WRITELOG)
+	@echo "\n\033[0;33m  $<\033[0m" $(WRITELOG)
 	@$(CC) $(CF) $(TEST_FLAGS) $< -o $@ -L. $(TARGET) $(DEBUG)
 	@./$@ $(WRITELOG)
 	@rm -f $@
@@ -92,7 +104,7 @@ test_gets: log_remove test_get_funcs
 	$(OPENLOG)
 
 test_get_funcs: $(TESTDIR)test_gets.c lib
-	@echo "\n\033[0;33m$<\033[0m" $(WRITELOG)
+	@echo "\n\033[0;33m  $<\033[0m" $(WRITELOG)
 	@$(CC) $(CF) $(TEST_FLAGS) $< -o $@ -L. $(TARGET)
 	@./$@ $(WRITELOG)
 	@rm -f $@
@@ -101,13 +113,13 @@ test_sets: log_remove test_set_funcs
 	$(OPENLOG)
 
 test_set_funcs: $(TESTDIR)test_sets.c lib
-	@echo "\n\033[0;33m$<\033[0m" $(WRITELOG)
+	@echo "\n\033[0;33m  $<\033[0m" $(WRITELOG)
 	@$(CC) $(CF) $(TEST_FLAGS) $< -o $@ -L. $(TARGET)
 	@./$@ $(WRITELOG)
 	@rm -f $@
 
 test_shift: $(TESTDIR)test_shift.c lib
-	@echo "\n\033[0;33m$<\033[0m" $(WRITELOG)
+	@echo "\n\033[0;33m  $<\033[0m" $(WRITELOG)
 	@$(CC) $(CF) $(TEST_FLAGS) $< -o $@ -L. $(TARGET)
 	@./$@ $(WRITELOG)
 	@rm -f $@

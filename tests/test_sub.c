@@ -23,6 +23,7 @@ START_TEST(sub_pos_result) {
   // Act
   e_sub(val_1, val_2, &res);
                   //  00000000000000000000000000000000101011010100101011010100101011011001011010010110100101101001011000011010010010110000111000011010
+                  // 101011010100101011010100101011011001011010010110100101101001011000011010010010110000111000011010
 
   // Assert
   char* res_str = e_dec_to_split_str(&res);
@@ -150,8 +151,8 @@ int main(void) {
   int failed = srunner_ntests_failed(runner);
   srunner_free(runner);
 
-  printf("\033[0;32mSUCCESS: %d\n", tests_count - failed);
-  printf("\033[0;31mFAILED: %d\n", failed);
+  printf("\033[0;32m  SUCCESS: %d\n", tests_count - failed);
+  printf("\033[0;31m  FAILED: %d\n", failed);
 
   return failed ? 1 : 0;
 }

@@ -35,7 +35,7 @@ int e_sub(e_decimal value_1, e_decimal value_2, e_decimal* result) {
     int bit_value_1 = 0;  // value_1 current bit
     int bit_value_2 = 0;  // value_2 current bit
     int bit_borrow = 0;   // current bit borrow status
-    for (int i = 0; i <= MANTISSA_MAX_BIT; i++) {
+    for (int i = 0; i <= MANTISSA_LEN; i++) {
       bit_value_1 = e_get_bit(value_1, i);
       bit_value_2 = e_get_bit(value_2, i);
       bit_value_1 += bit_borrow;
@@ -80,7 +80,7 @@ int e_sub_v2(e_decimal value_1, e_decimal value_2, e_decimal* result) {
     int bit_value_2 = 0;  // value_2 current bit
     int result_bit = 0;   // bit value that has to be set to the result bit
     int bit_borrow = 0;   // current bit borrow status
-    for (int i = 0; i <= MANTISSA_MAX_BIT; i++) {
+    for (int i = 0; i <= MANTISSA_LEN; i++) {
       bit_value_1 = e_get_bit(value_1, i);
       bit_value_2 = e_get_bit(value_2, i);
       bit_value_1 += bit_borrow;
