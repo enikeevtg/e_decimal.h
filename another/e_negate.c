@@ -12,6 +12,7 @@
 
 int e_negate(e_decimal value, e_decimal* result) {
   int error_code = 0;
+  for (int i = 0; i < 3; i++) result->bits[i] = value.bits[i];
   result->bits[3] = value.bits[3] ^ SIGN_MASK;
   return error_code;
 }

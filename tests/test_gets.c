@@ -11,13 +11,13 @@ START_TEST(get_bit_1) {
   number.bits[1] = 0b10010110100101101001011010010110;
   number.bits[2] = 0b10101101010010101101010010101101;
   number.bits[3] = 0b10000000011010010000000000000000;
-  char bin_str[132] = "10000000011010010000000000000000 10101101010010101101010010101101 10010110100101101001011010010110 10110100101101001011010010110100";
+  char ref_str[132] = "10000000011010010000000000000000 10101101010010101101010010101101 10010110100101101001011010010110 10110100101101001011010010110100";
 
   // Act
   char* res_str = e_dec_to_split_str(&number);  // using e_get_bit() inside
   
   // Assert
-  ck_assert_str_eq(res_str, bin_str);
+  ck_assert_str_eq(res_str, ref_str);
 }
 END_TEST
 
@@ -126,8 +126,8 @@ int main(void) {
   int failed = srunner_ntests_failed(runner);
   srunner_free(runner);
 
-  printf("\033[0;32mSUCCESS: %d\n", tests_count - failed);
-  printf("\033[0;31mFAILED: %d\n", failed);
+  printf("\033[0;32m  SUCCESS: %d\n", tests_count - failed);
+  printf("\033[0;31m  FAILED: %d\n", failed);
 
   return failed ? 1 : 0;
 }

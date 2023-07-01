@@ -29,9 +29,9 @@ e_decimal e_shift_to_right(e_decimal value, int offset) {
 /// @return 
 e_decimal e_shift_to_left(e_decimal value, int offset) {
   int max_offset = boundary_nills(value, LEFT_SIDE);
-  offset = offset % 96;
+  offset = offset % (MANTISSA_LEN - 1);
   if (offset && (offset <= max_offset)) {
-    int i = MANTISSA_LEN;
+    int i = MANTISSA_LEN - 1;
     for (; i - offset >= 0; i--) {
       int bit = e_get_bit(value, i - offset);
       e_set_bit(&value, i, bit);
@@ -46,8 +46,8 @@ e_decimal e_shift_to_left(e_decimal value, int offset) {
 /// @param side left or right side of number
 /// @return Quantity of boundary nills in number
 int boundary_nills(e_decimal value, int side) {
-  int check_bit = (side == RIGHT_SIDE) ? 0 : MANTISSA_LEN;
+  int check_bit = (side == RIGHT_SIDE) ? 0 : MANTISSA_LEN - 1;
   while (!e_get_bit(value, check_bit)) check_bit += side;
-  check_bit = (side == RIGHT_SIDE) ? check_bit : (MANTISSA_LEN - check_bit);
+  check_bit = (side == RIGHT_SIDE) ? check_bit : (MANTISSA_LEN - 1 - check_bit);
   return check_bit;
 }

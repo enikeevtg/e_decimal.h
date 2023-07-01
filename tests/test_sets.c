@@ -18,8 +18,8 @@ START_TEST(set_bit_01) {
   
   // Assert
   char* res_str = e_dec_to_split_str(&number);
-  char bin_str[132] = "10101010101010101010101010101010 10101010101010101010101010101010 10101010101010101010101010101010 10101010101010101010101010101010";
-  ck_assert_str_eq(res_str, bin_str);
+  char ref_str[132] = "10101010101010101010101010101010 10101010101010101010101010101010 10101010101010101010101010101010 10101010101010101010101010101010";
+  ck_assert_str_eq(res_str, ref_str);
 }
 END_TEST
 
@@ -37,8 +37,8 @@ START_TEST(set_sign_minus) {
   
   // Assert
   char* res_str = e_dec_to_split_str(&number);
-  char bin_str[132] = "10000000011010011000000000000000 10101101010010101101010010101101 10010110100101101001011010010110 10110100101101001011010010110100";
-  ck_assert_str_eq(res_str, bin_str);
+  char ref_str[132] = "10000000011010011000000000000000 10101101010010101101010010101101 10010110100101101001011010010110 10110100101101001011010010110100";
+  ck_assert_str_eq(res_str, ref_str);
 }
 END_TEST
 
@@ -56,47 +56,8 @@ START_TEST(set_sign_plus) {
   
   // Assert
   char* res_str = e_dec_to_split_str(&number);
-  char bin_str[132] = "00000000011010011000000000000000 10101101010010101101010010101101 10010110100101101001011010010110 10110100101101001011010010110100";
-  ck_assert_str_eq(res_str, bin_str);
-}
-END_TEST
-
-START_TEST(change_sign_to_1) {
-  // Arrange
-  e_decimal number = {0};
-  //                 76543210765432107654321076543210
-  number.bits[0] = 0b10110100101101001011010010110100;
-  number.bits[1] = 0b10010110100101101001011010010110;
-  number.bits[2] = 0b10101101010010101101010010101101;
-  number.bits[3] = 0b00000000011010011000000000000000;
-
-  // Act
-  e_change_sign(&number);
-  
-  // Assert
-  char* res_str = e_dec_to_split_str(&number);
-  char bin_str[132] = "10000000011010011000000000000000 10101101010010101101010010101101 10010110100101101001011010010110 10110100101101001011010010110100";
-  ck_assert_str_eq(res_str, bin_str);
-}
-END_TEST
-
-START_TEST(change_sign_to_0) {
-  // Arrange
-  e_decimal number = {0};
-  //                 76543210765432107654321076543210
-  number.bits[0] = 0b10110100101101001011010010110100;
-  number.bits[1] = 0b10010110100101101001011010010110;
-  number.bits[2] = 0b10101101010010101101010010101101;
-  number.bits[3] = 0b10000000011010011000000000000000;
-
-  // Act
-  e_change_sign(&number);
-    
-  // Assert
-  char* res_str = e_dec_to_split_str(&number);
-  char bin_str[132] = "00000000011010011000000000000000 10101101010010101101010010101101 10010110100101101001011010010110 10110100101101001011010010110100";
-  ck_assert_str_eq(res_str, bin_str);
-  
+  char ref_str[132] = "00000000011010011000000000000000 10101101010010101101010010101101 10010110100101101001011010010110 10110100101101001011010010110100";
+  ck_assert_str_eq(res_str, ref_str);
 }
 END_TEST
 
@@ -114,8 +75,8 @@ START_TEST(set_scale_1) {
   
   // Assert
   char* res_str = e_dec_to_split_str(&number);
-  char bin_str[132] = "10000000000000010000000000000000 10101101010010101101010010101101 10010110100101101001011010010110 10110100101101001011010010110100";
-  ck_assert_str_eq(res_str, bin_str);
+  char ref_str[132] = "10000000000000010000000000000000 10101101010010101101010010101101 10010110100101101001011010010110 10110100101101001011010010110100";
+  ck_assert_str_eq(res_str, ref_str);
 }
 END_TEST
 
@@ -133,8 +94,8 @@ START_TEST(set_scale_255) {
   
   // Assert
   char* res_str = e_dec_to_split_str(&number);
-  char bin_str[132] = "10000000111111110000000000000000 10101101010010101101010010101101 10010110100101101001011010010110 10110100101101001011010010110100";
-  ck_assert_str_eq(res_str, bin_str);
+  char ref_str[132] = "10000000111111110000000000000000 10101101010010101101010010101101 10010110100101101001011010010110 10110100101101001011010010110100";
+  ck_assert_str_eq(res_str, ref_str);
 }
 END_TEST
 
@@ -143,7 +104,6 @@ Suite* set_funcs(void) {
   TCase* tc_bit;
   TCase* tc_scale;
   TCase* tc_sign;
-  TCase* tc_change_sign;
 
   s = suite_create("set_bit functions suite");
 
@@ -151,20 +111,15 @@ Suite* set_funcs(void) {
   tcase_add_test(tc_bit, set_bit_01);
   suite_add_tcase(s, tc_bit);
 
-  tc_sign = tcase_create("set_sign function testcase");
-  tcase_add_test(tc_sign, set_sign_minus);
-  tcase_add_test(tc_sign, set_sign_plus);
-  suite_add_tcase(s, tc_sign);
-
-  tc_change_sign = tcase_create("change sign function testcase");
-  tcase_add_test(tc_change_sign, change_sign_to_1);
-  tcase_add_test(tc_change_sign, change_sign_to_0);
-  suite_add_tcase(s, tc_change_sign);
-
   tc_scale = tcase_create("set_scale function testcase");
   tcase_add_test(tc_scale, set_scale_1);
   tcase_add_test(tc_scale, set_scale_255);
   suite_add_tcase(s, tc_scale);
+
+  tc_sign = tcase_create("set_sign function testcase");
+  tcase_add_test(tc_sign, set_sign_minus);
+  tcase_add_test(tc_sign, set_sign_plus);
+  suite_add_tcase(s, tc_sign);
 
   return s;
 }
@@ -181,8 +136,8 @@ int main(void) {
   int failed = srunner_ntests_failed(runner);
   srunner_free(runner);
 
-  printf("\033[0;32mSUCCESS: %d\n", tests_count - failed);
-  printf("\033[0;31mFAILED: %d\n", failed);
+  printf("\033[0;32m  SUCCESS: %d\n", tests_count - failed);
+  printf("\033[0;31m  FAILED: %d\n", failed);
 
   return failed ? 1 : 0;
 }

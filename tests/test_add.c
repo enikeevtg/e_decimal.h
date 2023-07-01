@@ -26,8 +26,8 @@ START_TEST(add_1) {
 
   // Assert
   char* res_str = e_dec_to_split_str(&res);
-  char bin_str[132] = "00000000000000000000000000000000 10101101010010101101010010101101 10010110100101101001011010010111 01001111000111100101101101001110";
-  ck_assert_str_eq(res_str, bin_str);
+  char ref_str[132] = "00000000000000000000000000000000 10101101010010101101010010101101 10010110100101101001011010010111 01001111000111100101101101001110";
+  ck_assert_str_eq(res_str, ref_str);
 }
 END_TEST
 
@@ -61,8 +61,8 @@ int main(void) {
   int failed = srunner_ntests_failed(runner);
   srunner_free(runner);
 
-  printf("\033[0;32mSUCCESS: %d\n", tests_count - failed);
-  printf("\033[0;31mFAILED: %d\n", failed);
+  printf("\033[0;32m  SUCCESS: %d\n", tests_count - failed);
+  printf("\033[0;31m  FAILED: %d\n", failed);
 
   return failed ? 1 : 0;
 }
