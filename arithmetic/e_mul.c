@@ -21,7 +21,7 @@ int e_mul(e_decimal value_1, e_decimal value_2, e_decimal *result) {
   int bit_value_2 = 0;
   int max_offset_1 = e_boundary_nills(value_1, LEFT_SIDE);
   int scale_1 = e_get_scale(value_1);
-  e_decimal ten = E_DEC_TEN;  // for scale reduction
+  // e_decimal ten = E_DEC_TEN;  // for scale reduction
   int offset_buf = 0;
   
   for (int i = 0; !error_code && i < MANTISSA_LEN; i++) {
@@ -29,8 +29,8 @@ int e_mul(e_decimal value_1, e_decimal value_2, e_decimal *result) {
     if (bit_value_2) {
       // Shift possibility checking 
       while (i - offset_buf > max_offset_1 && scale_1 > 0) {
-        e_div(value_1, ten, &value_1);
-        e_div(*result, ten, result);
+        // e_div(value_1, ten, &value_1);
+        // e_div(*result, ten, result);
         scale_1--;
         max_offset_1++;
       }

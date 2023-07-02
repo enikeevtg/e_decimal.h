@@ -14,7 +14,7 @@ START_TEST(right_0) {
   char ref_str[132] = "10000000011010010000000000000000 10101101010010101101010010101101 10010110100101101001011010010110 10110100101101001011010010110100";
   int offset = 0;
   // Act
-  e_shift_to_right(&number, offset);
+  number = e_shift_to_right(number, offset);
   char* res_str = e_dec_to_split_str(&number);
   
   // Assert
@@ -34,7 +34,7 @@ START_TEST(right_1) {
   char ref_str[132] = "10000000011010010000000000000000 01010110101001010110101001010110 11001011010010110100101101001011 01011010010110100101101001011010";
 
   // Act
-  e_shift_to_right(&number, offset);
+  number = e_shift_to_right(number, offset);
   char* res_str = e_dec_to_split_str(&number);
   
   // Assert
@@ -54,7 +54,7 @@ START_TEST(right_32) {
   char ref_str[132] = "10000000011010010000000000000000 00000000000000000000000000000000 10101101010010101101010010101101 10010110100101101001011010010110";
 
   // Act
-  e_shift_to_right(&number, offset);
+  number = e_shift_to_right(number, offset);
   char* res_str = e_dec_to_split_str(&number);
   
   // Assert
@@ -74,28 +74,11 @@ START_TEST(right_64) {
   char ref_str[132] = "10000000011010010000000000000000 00000000000000000000000000000000 00000000000000000000000000000000 10101101010010101101010010101101";
 
   // Act
-  e_shift_to_right(&number, offset);
+  number = e_shift_to_right(number, offset);
   char* res_str = e_dec_to_split_str(&number);
   
   // Assert
   ck_assert_str_eq(res_str, ref_str);
-}
-END_TEST
-
-START_TEST(left_error) {
-  // Arrange
-  e_decimal number = {0};
-  //                 76543210765432107654321076543210
-  number.bits[0] = 0b10110100101101001011010010110100;
-  number.bits[1] = 0b10010110100101101001011010010110;
-  number.bits[2] = 0b10101101010010101101010010101101;
-  number.bits[3] = 0b10000000011010010000000000000000;
-  int offset = 1;
-  // Act
-  int error = e_shift_to_left(&number, offset);
-  
-  // Assert
-  ck_assert_int_eq(error, 1);
 }
 END_TEST
 
@@ -110,7 +93,7 @@ START_TEST(left_0) {
   char ref_str[132] = "10000000011010010000000000000000 10101101010010101101010010101101 10010110100101101001011010010110 10110100101101001011010010110100";
   int offset = 0;
   // Act
-  e_shift_to_left(&number, offset);
+  number = e_shift_to_left(number, offset);
   char* res_str = e_dec_to_split_str(&number);
   
   // Assert
@@ -130,7 +113,7 @@ START_TEST(left_1) {
   char ref_str[132] = "00000000011010010000000000000000 00101101010010101101100101011011 00101101001011010010110100101101 01101001011010010110100101101000";
 
   // Act
-  e_shift_to_left(&number, offset);
+  number = e_shift_to_left(number, offset);
   char* res_str = e_dec_to_split_str(&number);
   
   // Assert
@@ -150,7 +133,7 @@ START_TEST(left_32) {
   char ref_str[132] = "10101101010010101101010010101101 10010110100101101001011010010110 10000000011010010000000000000000 00000000000000000000000000000000";
 
   // Act
-  e_shift_to_left(&number, offset);
+  number = e_shift_to_left(number, offset);
   char* res_str = e_dec_to_split_str(&number);
   
   // Assert
@@ -170,7 +153,7 @@ START_TEST(left_64) {
   char ref_str[132] = "10000000011010010000000000000000 10110100101101001011010010110100 00000000000000000000000000000000 00000000000000000000000000000000";
 
   // Act
-  e_shift_to_left(&number, offset);
+  number = e_shift_to_left(number, offset);
   char* res_str = e_dec_to_split_str(&number);
   
   // Assert
@@ -193,7 +176,6 @@ Suite* get_bit_func(void) {
   suite_add_tcase(s, tc_right);
 
   tc_left = tcase_create("Left shift cases");
-  tcase_add_test(tc_left, left_error);
   tcase_add_test(tc_left, left_0);
   tcase_add_test(tc_left, left_1);
   tcase_add_test(tc_left, left_32);
