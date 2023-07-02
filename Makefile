@@ -36,7 +36,7 @@ OBJ += $(patsubst $(ANOTHERDIR)%.c, $(OBJDIR)%.o, $(SRC))
 OBJ += $(patsubst $(INTERNALDIR)%.c, $(OBJDIR)%.o, $(SRC))
 
 TESTDIR = tests/
-TEST_TARGETS = test_get_funcs test_set_funcs test_shift
+TEST_TARGETS = test_get_funcs test_set_funcs test_shifts
 TEST_TARGETS += test_addition test_subtruction
 TEST_TARGETS += test_is_less test_is_less_or_equal test_is_greater test_is_greater_or_equal test_is_equal test_is_not_equal
 
@@ -101,7 +101,7 @@ test_set_funcs: $(TESTDIR)test_sets.c lib
 	@./$@ $(WRITELOG)
 	@rm -f $@
 
-test_shift: $(TESTDIR)test_shift.c lib
+test_shifts: $(TESTDIR)test_shifts.c lib
 	@echo "\n\033[0;33m  $<  \033[0m" $(WRITELOG)
 	@$(CC) $(CF) $(TEST_FLAGS) $< -o $@ -L. $(TARGET)
 	@./$@ $(WRITELOG)
@@ -123,6 +123,15 @@ test_sub: log_remove test_subtruction
 test_subtruction: $(TESTDIR)test_sub.c lib
 	@echo "\n\033[0;33m  $<  \033[0m" $(WRITELOG)
 	@$(CC) $(CF) $(TEST_FLAGS) $< -o $@ -L. $(TARGET) $(DEBUG)
+	@./$@ $(WRITELOG)
+	@rm -f $@
+
+test_mul: log_remove test_multiplication
+	$(OPENLOG)
+
+test_multiplication: $(TESTDIR)test_mul.c lib
+	@echo "\n\033[0;33m  $<  \033[0m" $(WRITELOG)
+	@$(CC) $(CF) $(TEST_FLAGS) $< -o $@ -L. $(TARGET)
 	@./$@ $(WRITELOG)
 	@rm -f $@
 

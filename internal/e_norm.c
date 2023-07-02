@@ -11,23 +11,34 @@
 #include "../e_decimal.h"
 
 // int e_norm(e_decimal* value_1, e_decimal* value_2) {
-//   int error = 0;
+//   int error_code = 0;
 //   int scale_1 = e_get_scale(*value_1);
 //   int scale_2 = e_get_scale(*value_2);
 //   if (scale_1 > scale_2)
-//     e_normalize(value_2, scale_2, scale_1);
+//     error_code = e_normalize(value_2, scale_2, scale_1);
 //   else if (scale_1 < scale_2)
-//     e_normalize(value_1, scale_1, scale_2);
-//   return error;
+//     error_code = e_normalize(value_1, scale_1, scale_2);
+//   return error_code;
 // }
 
-// void e_normalize(e_decimal* value, int scale_src, int scale_dest) {
-//   /*some code*/
+// int e_normalize(e_decimal* value, int scale_src, int scale_dest) {
+
 // }
 
 int e_mul_10(e_decimal value, e_decimal* result) {
-  e_decimal value_1 = e_shift_to_left(value, 1);
-  e_decimal value_2 = e_shift_to_left(value, 3);
-  e_add(value_1, value_2, result);
-  return 0;
+  int scale = e_get_scale(value);
+  int error = (scale >= MAX_SCALE) ? 1 : 0;
+  
+  e_decimal value_1 = value;
+  e_decimal value_2 = value;
+  
+  if (!error) {
+    // error += e_shift_to_left(value_1, 1);
+    // error += e_shift_to_left(value_2, 3);
+  }
+  if (!error) {
+    error = e_add(value_1, value_2, result);
+    e_set_scale(result, scale + 1);
+  }
+  return error;
 }

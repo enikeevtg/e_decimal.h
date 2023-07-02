@@ -1,11 +1,12 @@
 /**
  * @author T. Enikeev
  * enikeev.tg@gmail.com
- * @brief three versions of two integer variables summation
- * by using differents approaches
+ * 
+ * @brief two e_decimal numbers summation by using direct approach
  *
- * @param 'value_1' and 'value_2' is the numbers have to be summarized.
- * @param 'result' is the pointer to result variable.
+ * @param value_1 is the first member of sum
+ * @param value_2 is the second member of sum
+ * @param result is the pointer to result variable
  *
  * @return error codes:
  *         0 - OK
@@ -18,7 +19,7 @@
 #include "../e_decimal.h"
 
 int e_add(e_decimal value_1, e_decimal value_2, e_decimal* result) {
-  int error_code = 0;
+  int error_code = OK;
   e_dec_reset(result);
   int sign_1 = e_get_sign(value_1);
   int sign_2 = e_get_sign(value_2);
@@ -47,7 +48,7 @@ int e_add(e_decimal value_1, e_decimal value_2, e_decimal* result) {
 }
 
 int e_add_alg(e_decimal value_1, e_decimal value_2, e_decimal* result) {
-  int error_code = 0;
+  int error_code = OK;
 
   if (e_dec_is_nill(value_1))
     *result = value_2;

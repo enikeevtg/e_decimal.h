@@ -3,18 +3,28 @@
 
 #include <stdio.h>
 
-#define TRUE 1
-#define FALSE 0
-
-#define RIGHT_SIDE 1
-#define LEFT_SIDE -1
-
+// PREPROC DEFINES
+// e_decimal properties:
+#define MANTISSA_LEN 96
+#define MAX_SCALE 28
+#define SIGN_MASK 0x80000000   // 0b10000000 00000000 00000000 00000000
+#define SCALE_MASK 0x00ff0000  // 0b00000000 11111111 00000000 00000000
 #define MINUS 1
 #define PLUS 0
 
-#define MANTISSA_LEN 96
-#define SIGN_MASK 0x80000000   // 0b10000000 00000000 00000000 00000000
-#define SCALE_MASK 0x00ff0000  // 0b00000000 11111111 00000000 00000000
+// error_codes:
+#define OK 0
+#define TOO_LARGE 1
+#define TOO_SMALL 2
+
+// for shift possibility checking:
+#define RIGHT_SIDE 1
+#define LEFT_SIDE -1
+#define E_DEC_TEN {{10U, 0, 0, 0}}
+
+// for comparison functions:
+#define TRUE 1
+#define FALSE 0
 
 // TYPES AND STUCTURES
 typedef struct {
@@ -31,6 +41,7 @@ enum { _low, _mid, _high, _form };
 // arithmetic operators
 int e_add(e_decimal value_1, e_decimal value_2, e_decimal* result);
 int e_sub(e_decimal value_1, e_decimal value_2, e_decimal* result);
+int e_mul(e_decimal value_1, e_decimal value_2, e_decimal *result);
 
 // comparison operators
 int e_is_less(e_decimal value_1, e_decimal value_2);
@@ -63,8 +74,9 @@ char* e_dec_to_split_str(e_decimal* value);
 void e_bin_convert(e_decimal* value);
 int e_dec_is_nill(e_decimal value);
 void e_dec_reset(e_decimal* value);
+void e_set_result(e_decimal val_1, e_decimal val_2, e_decimal* result);
 
-int boundary_nills(e_decimal value, int side);
+int e_boundary_nills(e_decimal value, int side);
 e_decimal e_shift_to_right(e_decimal value, int offset);
 e_decimal e_shift_to_left(e_decimal value, int offset);
 

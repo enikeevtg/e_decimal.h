@@ -19,3 +19,14 @@ int e_dec_is_nill(e_decimal value) {
 void e_dec_reset(e_decimal* value) {
   for (int i = 0; i < 4; i++) value->bits[i] = 0;
 }
+
+/// @brief Boundary nills in binary representation quantity calculation
+/// @param value e_decimal number
+/// @param side left or right side of e_decimal number
+/// @return Quantity of boundary nills in number
+int e_boundary_nills(e_decimal value, int side) {
+  int check_bit = (side == LEFT_SIDE) ? MANTISSA_LEN - 1 : 0;
+  while (!e_get_bit(value, check_bit)) check_bit += side;
+  check_bit = (side == RIGHT_SIDE) ? check_bit : (MANTISSA_LEN - 1 - check_bit);
+  return check_bit;
+}

@@ -1,7 +1,8 @@
 /**
  * @author T. Enikeev
- * @brief
- * @param value 
+ * @brief convertion from "Signed magnitude representation" to
+ * "Two's complement representation"
+ * @param value is e_decimal number
  */
 
 #include "../e_decimal.h"

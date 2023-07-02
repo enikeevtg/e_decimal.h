@@ -16,7 +16,7 @@
 #include "../e_decimal.h"
 
 int e_sub(e_decimal value_1, e_decimal value_2, e_decimal* result) {
-  int error_code = 0;
+  int error_code = OK;
   e_dec_reset(result);
   int sign_1 = e_get_sign(value_1);
   int sign_2 = e_get_sign(value_2);
@@ -50,7 +50,7 @@ int e_sub(e_decimal value_1, e_decimal value_2, e_decimal* result) {
 }
 
 int e_sub_alg(e_decimal value_1, e_decimal value_2, e_decimal* result) {
-  int error_code = 0;
+  int error_code = OK;
 
   if (e_dec_is_nill(value_1))
     e_negate(value_2, result);
@@ -63,6 +63,7 @@ int e_sub_alg(e_decimal value_1, e_decimal value_2, e_decimal* result) {
       int bit_value_2 = 0;  // value_2 current bit
       int result_bit = 0;   // bit value that has to be set to the result bit
       int bit_borrow = 0;   // current bit borrow status
+
       for (int i = 0; i < MANTISSA_LEN; i++) {
         bit_value_1 = e_get_bit(value_1, i);
         bit_value_2 = e_get_bit(value_2, i);
